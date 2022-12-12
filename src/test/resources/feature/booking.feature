@@ -33,6 +33,7 @@ Feature: Search on booking.com
       | London | The Camden Arms - Bright and Charming 2BDR Flat    | 10     |
       | London | TOP FLOOR NOTTING-HILL CENTRAL!Opens in new window | 8      |
 
+  @Smoke
   Scenario: Search by city and check rating
     Given User is looking for hotel in 'London' city
     When User does search
