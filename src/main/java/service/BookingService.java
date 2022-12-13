@@ -6,12 +6,13 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.testng.Assert;
+import org.testng.asserts.SoftAssert;
 import pages.BookingMainPage;
 import pages.BookingSearchResultsPage;
 
 import java.util.ArrayList;
 
-public class BookingService {
+public class BookingService extends BaseService {
 
     private String city;
     private String hotel;
@@ -34,25 +35,31 @@ public class BookingService {
     @Then("Hotel {string} should be on the first page")
     public void hotelShouldBeOnThePage(String hotel) {
         this.hotel = hotel;
-        ArrayList<String> hotelNames = new ArrayList<>();
-        for (SelenideElement element : bookingSearchResultsPage.getListOfHotelTitleElements()) {
-            hotelNames.add(element.getText());
-        }
-        Assert.assertTrue(hotelNames.contains(hotel));
+        Assert.assertTrue(isHotelOnPage(hotel));
     }
 
     @Then("Hotel {string} should be on the first page And rating is {string}")
     public void hotelShouldBeOnTheFirstPageAndRatingIs(String hotel, String hotelRating) {
         SelenideElement hotelScoreRatingElement = bookingSearchResultsPage.getHotelReviewScoreByHotelElement(hotel);
         String actualRating = hotelScoreRatingElement.getText();
-        hotelShouldBeOnThePage(hotel);
-        Assert.assertEquals(actualRating, hotelRating);
+        SoftAssert softAssert = new SoftAssert();
+        softAssert.assertTrue(isHotelOnPage(hotel));
+        softAssert.assertEquals(actualRating, hotelRating);
+        softAssert.assertAll();
     }
+
     @And("Rating is {string}")
     public void ratingIs(String hotelRating) {
         SelenideElement hotelScoreRatingElement = bookingSearchResultsPage.getHotelReviewScoreByHotelElement(hotel);
         String actualRating = hotelScoreRatingElement.getText();
-        hotelShouldBeOnThePage(hotel);
         Assert.assertEquals(actualRating, hotelRating);
+    }
+
+    private boolean isHotelOnPage(String hotel) {
+        ArrayList<String> hotelNames = new ArrayList<>();
+        for (SelenideElement element : bookingSearchResultsPage.getListOfHotelTitleElements()) {
+            hotelNames.add(element.getText());
+        }
+        return hotelNames.contains(hotel);
     }
 }
