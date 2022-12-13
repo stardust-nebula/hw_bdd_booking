@@ -43,8 +43,8 @@ public class BookingService extends BaseService {
         SelenideElement hotelScoreRatingElement = bookingSearchResultsPage.getHotelReviewScoreByHotelElement(hotel);
         String actualRating = hotelScoreRatingElement.getText();
         SoftAssert softAssert = new SoftAssert();
-        softAssert.assertTrue(isHotelOnPage(hotel));
-        softAssert.assertEquals(actualRating, hotelRating);
+        softAssert.assertTrue(isHotelOnPage(hotel), "Hotel not found on the page");
+        softAssert.assertEquals(actualRating, hotelRating, "Rating doesn't match");
         softAssert.assertAll();
     }
 

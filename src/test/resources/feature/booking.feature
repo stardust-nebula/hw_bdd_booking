@@ -21,7 +21,7 @@ Feature: Search on booking.com
   Scenario: Search by city and check rating
     Given User is looking for hotel in 'London' city
     When User does search
-    Then Hotel 'Yotel London Shoreditch' should be on the first page And rating is '7.8'
+    Then Hotel 'Yotel London Shoreditch' should be on the first page And rating is '7.7'
 
   Scenario Outline: Search by city and check rating
     Given User is looking for hotel in '<City>' city
@@ -38,4 +38,4 @@ Feature: Search on booking.com
     Given User is looking for hotel in 'London' city
     When User does search
     Then Hotel 'Yotel London Shoreditch' should be on the first page
-    And Rating is '7.8'
+    And Rating is '7.7'
